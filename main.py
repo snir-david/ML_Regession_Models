@@ -50,7 +50,7 @@ svr_model.fit(standard_X, standard_y)
 # 4. Decision Tree Regression
 decisionTree_model = DecisionTreeRegressor(random_state=0)
 decisionTree_model.fit(X_train, y_train)
-# 5. Random Forest Linear Regression
+# 5. Random Forest Regression
 randomForest_model = RandomForestRegressor(n_estimators=10, random_state=0)
 randomForest_model.fit(X_train, y_train)
 
@@ -60,10 +60,10 @@ linear_pred = linear_model.predict(X_test)
 # 2. Polynomial Linear Regression
 poly_pred = polynomial_model.predict(poly_reg.transform(X_test))
 # 3. SVR  Regression
-svr_pred = sc_y.inverse_transform(svr_model.predict(standard_testX).reshape(-1,1))
+svr_pred = sc_y.inverse_transform(svr_model.predict(standard_testX).reshape(-1, 1))
 # 4. Decision Tree Regression
 dtr_pred = decisionTree_model.predict(X_test)
-# 5. Random Forest Linear Regression
+# 5. Random Forest Regression
 rfr_pred = randomForest_model.predict(X_test)
 
 # Evaluating the Model Performance
@@ -75,5 +75,18 @@ poly_score = r2_score(y_test, poly_pred)
 svr_score = r2_score(y_test, svr_pred)
 # 4. Decision Tree Regression
 dtr_score = r2_score(y_test, dtr_pred)
-# 5. Random Forest Linear Regression
+# 5. Random Forest Regression
 rfr_score = r2_score(y_test, rfr_pred)
+
+results = {
+    "Simple/Multiple Linear Regression": linear_score,
+    "Polynomial Linear Regression": poly_score,
+    "SVR  Regression": svr_score,
+    "Decision Tree Regression": dtr_score,
+    "Random Forest Regression": rfr_score
+}
+
+results = sorted(results.items(), key=lambda x: x[1], reverse=True)
+
+for i in range(0, len(results)):
+    print(f'The model in the {i+1} place is {results[i][0]} and the R^2 score is {results[i][1]}\n')
